@@ -1,8 +1,8 @@
 var router = require('express').Router();
 
 let bookList = [
-  'Make Time: How to Focus on what Matters Every Day',
-  'The Power Of Habit',
+  {id:0,name:'Make Time: How to Focus on what Matters Every Day'},
+  {id:1,name:'The Power Of Habit'},
 ]
 
 
@@ -19,12 +19,12 @@ router.post('/', (request, response) => {
 
   // We check if the book list includes the new book
   // If it is, we return 'false'
-  console.log(bookName)
-  if (bookList.includes(bookName)) return response({ success: false,yourRequest:request })
+  console.log(request.body.name)
+  if (bookList.includes(bookName)) return response.json({ success: false })
 
   // Otherwise, we add the new book in the list and return 'true'
-  bookList.push({bookName,yourRequest:request})
-  return response({bookList,yourRequest:request})
+  bookList.push({name:bookName,id:Math.floor(Math.random() * 99999999999) + 1})
+  return response.json(bookList)
 })
 
 router.delete('/', (request, response) => {

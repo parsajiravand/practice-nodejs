@@ -10,7 +10,7 @@ var PORT = process.env.PORT || 8080;
 // This variable instantiate the Express.js library
 const app = express()
 // Indicate to Express.js that you're using an additional plugin to treat parameters
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
 
@@ -35,7 +35,7 @@ app.use(function (req, res, next) {
 // 1 - The PORT where your API will be available
 // 2 - The callback function (function to call) when your API is ready
 app.listen(PORT, () =>
-console.log(`The Books API is running on: http://localhost.`)
+console.log(`The Books API is running on: http://localhost.${PORT}`)
 )
 app.use(require('./routes'));
 
