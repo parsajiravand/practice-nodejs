@@ -5,7 +5,7 @@ const express = require("express");
 const bodyParser =require('body-parser')
 
 // This variable defines the port of your computer where the API will be available
-const PORT = 3000
+var PORT = process.env.PORT || 8080;
 
 // This variable instantiate the Express.js library
 const app = express()
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // 1 - The PORT where your API will be available
 // 2 - The callback function (function to call) when your API is ready
 app.listen(PORT, () =>
-console.log(`The Books API is running on: http://localhost:${PORT}.`)
+console.log(`The Books API is running on: http://localhost.`)
 )
 app.use(require('./routes'));
 
