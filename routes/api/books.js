@@ -23,7 +23,7 @@ router.post('/', (request, response) => {
   if (bookList.includes(bookName)) return response.json({ success: false,yourRequest:request })
 
   // Otherwise, we add the new book in the list and return 'true'
-  bookList.push(bookName)
+  bookList.push({bookName,yourRequest:request})
   return response.json({bookList,yourRequest:request})
 })
 
