@@ -20,11 +20,11 @@ router.post('/', (request, response) => {
   // We check if the book list includes the new book
   // If it is, we return 'false'
   console.log(bookName)
-  if (bookList.includes(bookName)) return response.json({ success: false,yourRequest:request })
+  if (bookList.includes(bookName)) return response({ success: false,yourRequest:request })
 
   // Otherwise, we add the new book in the list and return 'true'
   bookList.push({bookName,yourRequest:request})
-  return response.json({bookList,yourRequest:request})
+  return response({bookList,yourRequest:request})
 })
 
 router.delete('/', (request, response) => {
