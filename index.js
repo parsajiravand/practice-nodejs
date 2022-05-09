@@ -1,5 +1,9 @@
 // Import Express.js
 const express = require("express");
+require('dotenv').config();
+
+//Database Connection
+require('./dbConnection.js')
 
 // Import body-parser (to handle parameters more easily)
 const bodyParser =require('body-parser')
