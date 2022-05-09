@@ -39,7 +39,7 @@ app.use(function (req, res, next) {
 // 1 - The PORT where your API will be available
 // 2 - The callback function (function to call) when your API is ready
 app.listen(PORT, () =>
-console.log(`The Books API is running on: http://localhost.${PORT}`)
+console.log(`The Books API is running on: http://localhost:${PORT}`)
 )
 app.use(require('./routes'));
 

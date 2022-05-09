@@ -1,5 +1,5 @@
 var router = require('express').Router();
-
+const Model = require('../../models/books');
 let bookList = [
   {id:0,name:'Make Time: How to Focus on what Matters Every Day'},
   {id:1,name:'The Power Of Habit'},
@@ -24,7 +24,19 @@ router.post('/', (request, response) => {
 
   // Otherwise, we add the new book in the list and return 'true'
   bookList.push({name:bookName,id:Math.floor(Math.random() * 99999999999) + 1})
-  return response.json(bookList)
+ 
+   const data = new Model({
+        name: request.body.name,
+    })
+
+    try {
+        const dataToSave = data.save();
+        response.status(200).json(dataToSave)
+    }
+    catch (error) {
+        response.status(400).json({message: error.message})
+    }
+     return response.json(bookList)
 })
 
 router.delete('/', (request, response) => {
