@@ -1,5 +1,9 @@
 // Import Express.js
 const express = require("express");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+
 require('dotenv').config();
 
 //Database Connection
@@ -13,6 +17,7 @@ var PORT = process.env.PORT || 8080;
 
 // This variable instantiate the Express.js library
 const app = express()
+
 // Indicate to Express.js that you're using an additional plugin to treat parameters
 app.use(bodyParser.json())
 // Add headers before the routes are defined
@@ -51,3 +56,4 @@ app.get('/', (request, response) => {
   response.send('Welcome on the books API! Take a breath and start using it!')
 })
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

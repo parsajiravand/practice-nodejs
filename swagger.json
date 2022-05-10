@@ -1,0 +1,106 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Application API overview",
+    "version": "v1.beta.1.0.0"
+  },
+  "paths": {
+    "/api/books": {
+      "get": {
+        "operationId": "listVersionsv2",
+        "summary": "Get All Books",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": {
+                "items": [
+                  {
+                    "_id": "62798d25c8b987241f7a4a25",
+                    "name": "name updated!"
+                  },
+                  {
+                    "_id": "627acd075ff8ea210182a622",
+                    "name": "send new book from post man new Edited!"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates a new book .  Duplicates are allowed",
+        "operationId": "addBook",
+        "parameters": [
+          {
+            "name": "book",
+            "in": "body",
+            "description": "Book to add to the Database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewBook"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "book response",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Book": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/NewBook"
+        },
+        {
+          "required": ["id"],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+    "NewBook": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "consumes": ["application/json"]
+}
