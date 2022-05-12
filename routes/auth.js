@@ -1,4 +1,4 @@
-var { expressjwt: jwt } = require("express-jwt");
+const { expressjwt: jwt } = require("express-jwt");
 const secret = require('../config').secret;
 
 function getTokenFromHeader(req){

@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const Posts = require("../../models/posts");
 const auth = require("../auth");
-
+const jwt_decode = require("jwt-decode");
+const { getTokenFromHeader } = require("../../utils/getToken");
 // Replace the route name
 router.get("/", async (request, response) => {
   /* get All books  */
@@ -9,7 +10,7 @@ router.get("/", async (request, response) => {
   const page = parseInt(request.query.page);
   const limit = parseInt(request.query.limit || 10);
   const skipIndex = (page - 1) * limit;
-  
+
   const total = await Posts.aggregate([
     {
       $facet: {
@@ -18,7 +19,7 @@ router.get("/", async (request, response) => {
     },
   ]);
   Posts.find()
-    .sort()
+    .sort({ updatedAt: -1 })
     .limit(limit)
     .skip(skipIndex)
     .exec((err, items) => {
@@ -37,7 +38,9 @@ router.get("/", async (request, response) => {
 
 router.post("/", auth.required, (request, response) => {
   const data = new Posts({
-    name: request.body.name,
+    title: request.body.title,
+    body: request.body.body,
+    userId: jwt_decode(getTokenFromHeader(request)).id,
   });
   data
     .save()
@@ -61,7 +64,13 @@ router.delete("/:id", auth.required, (request, response) => {
     });
 });
 router.put("/:id", auth.required, (request, response) => {
-  Posts.updateOne({ _id: request.params.id }, { name: request.body.name })
+  Posts.updateOne(
+    { _id: request.params.id },
+    {
+      title: request.body.title,
+      body: request.body.body,
+    }
+  )
     .then(() => {
       return response.json("updated!");
     })
