@@ -1,6 +1,7 @@
 var router = require('express').Router();
 
 router.use('/books', require('./books'));
+router.use('/user', require('./user'));
 
 
 router.use(function(err, req, res, next){
