@@ -1,5 +1,7 @@
-var router = require("express").Router();
+const router = require("express").Router();
 const Books = require("../../models/books");
+const auth = require('../auth');
+
 // Replace the route name
 router.get("/", (request, response) => {
   /* get All books  */
@@ -14,7 +16,7 @@ router.get("/", (request, response) => {
   });
 });
 
-router.post("/", (request, response) => {
+router.post("/",auth.required, (request, response) => {
   const data = new Books({
     name: request.body.name,
   });
@@ -26,7 +28,7 @@ router.post("/", (request, response) => {
     });
 });
 
-router.delete("/:id", (request, response) => {
+router.delete("/:id",auth.required, (request, response) => {
   Books.deleteOne({ _id: request.params.id })
     .then(() => {
       return response.json("deleted!");
@@ -36,7 +38,7 @@ router.delete("/:id", (request, response) => {
        return response.json(error);
     });
 });
-router.put("/:id", (request, response) => {
+router.put("/:id",auth.required, (request, response) => {
   Books.updateOne({ _id: request.params.id },{ name: request.body.name })
     .then(() => {
       return response.json("updated!");

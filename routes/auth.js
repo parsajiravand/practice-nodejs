@@ -1,5 +1,5 @@
-var jwt = require('express-jwt');
-var secret = require('../config').secret;
+var { expressjwt: jwt } = require("express-jwt");
+const secret = require('../config').secret;
 
 function getTokenFromHeader(req){
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token' ||
@@ -10,14 +10,16 @@ function getTokenFromHeader(req){
   return null;
 }
 
-var auth = {
+const auth = {
   required: jwt({
     secret: secret,
+    algorithms: ['HS256'],
     userProperty: 'payload',
     getToken: getTokenFromHeader
   }),
   optional: jwt({
     secret: secret,
+    algorithms: ['HS256'],
     userProperty: 'payload',
     credentialsRequired: false,
     getToken: getTokenFromHeader
