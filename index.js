@@ -10,6 +10,9 @@ require('dotenv').config();
 //Database Connection
 require('./dbConnection.js')
 
+//Insert json api or files to db for first time
+/* require('./insert') */
+
 // Import body-parser (to handle parameters more easily)
 const bodyParser =require('body-parser')
 
