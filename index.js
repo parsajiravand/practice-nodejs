@@ -1,5 +1,6 @@
 // Import Express.js
 const express = require("express");
+const passport = require('passport')
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
@@ -56,4 +57,5 @@ app.get('/', (request, response) => {
   response.send('Welcome on the books API! Take a breath and start using it!')
 })
 
+require('./config/passport');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
