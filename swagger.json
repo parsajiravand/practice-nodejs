@@ -5,10 +5,43 @@
     "version": "v1.beta.1.0.0"
   },
   "paths": {
+    "/api/user/login": {
+      "post": {
+        "description": "login user .  Duplicates are not allowed",
+        "operationId": "login",
+        "tags": ["user"],
+        "parameters": [
+          {
+            "name": "login",
+            "in": "body",
+            "description": "login user and get token",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "login response",
+            "schema": {
+              "$ref": "#/definitions/LoginRes"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/api/books": {
       "get": {
         "operationId": "listVersionsv2",
         "summary": "Get All Books",
+        "tags": ["books"],
         "produces": ["application/json"],
         "responses": {
           "200": {
@@ -33,6 +66,7 @@
       "post": {
         "description": "Creates a new book .  Duplicates are allowed",
         "operationId": "addBook",
+        "tags": ["books"],
         "parameters": [
           {
             "name": "book",
@@ -62,6 +96,52 @@
     }
   },
   "definitions": {
+    "Login": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Login"
+        },
+        {
+          "required": ["email", "password"],
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "int64"
+            },
+            "password": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+    "LoginRes": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/LoginRes"
+        },
+        {
+          "required": ["email", "username", "token"],
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "int64"
+            },
+            "username": {
+              "type": "string",
+              "format": "int64"
+            },
+            "token": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
     "Book": {
       "type": "object",
       "allOf": [
