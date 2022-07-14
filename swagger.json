@@ -159,6 +159,43 @@
           }
         }
       }
+    },
+    "/api/books/{id}": {
+      "delete": {
+        "description": "Delete  book ",
+        "operationId": "delete Book",
+        "tags": ["books"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "delete to the Database",
+            "required": true,
+
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "book response",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
