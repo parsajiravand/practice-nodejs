@@ -17,7 +17,7 @@ require('./dbConnection.js')
 const bodyParser =require('body-parser')
 
 // This variable defines the port of your computer where the API will be available
-const PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 8080;
 
 // This variable instantiate the Express.js library
 const app = express()
@@ -47,7 +47,7 @@ app.use(function (req, res, next) {
 // The code below starts the API with these parameters:
 // 1 - The PORT where your API will be available
 // 2 - The callback function (function to call) when your API is ready
-app.listen(process.env.PORT || 3000, () =>
+app.listen(PORT, () =>
 console.log(`The Books API is running on: http://localhost:${PORT}`)
 )
 app.use(require('./routes'));
