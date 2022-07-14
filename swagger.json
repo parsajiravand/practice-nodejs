@@ -37,6 +37,38 @@
         }
       }
     },
+    "/api/user/register": {
+      "post": {
+        "description": "register user .  Duplicates are not allowed",
+        "operationId": "register",
+        "tags": ["user"],
+        "parameters": [
+          {
+            "name": "register",
+            "in": "body",
+            "description": "register user and get token",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Register"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "register response",
+            "schema": {
+              "$ref": "#/definitions/RegisterRes"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/api/books": {
       "get": {
         "operationId": "listVersionsv2",
@@ -122,6 +154,52 @@
       "allOf": [
         {
           "$ref": "#/definitions/LoginRes"
+        },
+        {
+          "required": ["email", "username", "token"],
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "int64"
+            },
+            "username": {
+              "type": "string",
+              "format": "int64"
+            },
+            "token": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+    "Register": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Register"
+        },
+        {
+          "required": ["email", "password"],
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "int64"
+            },
+            "password": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+    "RegisterRes": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/RegisterRes"
         },
         {
           "required": ["email", "username", "token"],
