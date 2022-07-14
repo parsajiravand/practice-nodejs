@@ -5,6 +5,34 @@
     "version": "v1.beta.1.0.0"
   },
   "paths": {
+    "/api/user": {
+      "get": {
+        "summary": "Get User Admin Only",
+        "description": "userList  .  Just admin can get this list admin@admin.com 123456",
+        "operationId": "userList",
+        "tags": ["user"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "userList and login with admin  admin@admin.com 123456",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User response"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/api/user/login": {
       "post": {
         "description": "login user .  Duplicates are not allowed",
@@ -101,6 +129,12 @@
         "tags": ["books"],
         "parameters": [
           {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "book",
             "in": "body",
             "description": "Book to add to the Database",
@@ -128,6 +162,24 @@
     }
   },
   "definitions": {
+    "User": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Login"
+        },
+        {
+          "required": ["Authorization"],
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+
     "Login": {
       "type": "object",
       "allOf": [
