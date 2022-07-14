@@ -17,7 +17,7 @@ require('./dbConnection.js')
 const bodyParser =require('body-parser')
 
 // This variable defines the port of your computer where the API will be available
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 3000;
 
 // This variable instantiate the Express.js library
 const app = express()
