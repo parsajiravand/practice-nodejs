@@ -1,7 +1,51 @@
 var router = require("express").Router();
 const User = require("../../models/user");
 var passport = require("passport");
+const auth = require("../auth");
+const jwt_decode = require("jwt-decode");
+const { getTokenFromHeader } = require("../../utils/getToken");
 
+// Replace the route name
+router.get("/", auth.required, async (request, response) => {
+  /* get All users  */
+  /* remove extra properties in find() */
+  const user = jwt_decode(getTokenFromHeader(request));
+  console.log(user);
+  if (user.username === "admin@admin.com") {
+    const page = parseInt(request.query.page);
+    const limit = parseInt(request.query.limit || 10);
+    const skipIndex = (page - 1) * limit;
+
+    const total = await User.aggregate([
+      {
+        $facet: {
+          paginate: [{ $count: "total" }],
+        },
+      },
+    ]);
+    User.find()
+      .sort({ updatedAt: -1 })
+      .limit(limit)
+      .skip(skipIndex)
+      .exec((err, items) => {
+        if (!err) {
+          return response.json({
+            items: items,
+            total: total[0].paginate[0].total,
+            pageSize: limit,
+            page,
+          });
+        } else {
+          return response.json(err);
+        }
+      });
+  } else {
+    return response.json({
+      success: false,
+      message: "you need to login with admin eccount",
+    });
+  }
+});
 // Replace the route name
 router.post("/register", (request, response, next) => {
   const user = new User();
@@ -12,7 +56,6 @@ router.post("/register", (request, response, next) => {
     .save()
     .then((res) => {
       login(request, response, next);
-      /*  return response.json(res); */
     })
     .catch(function (error) {
       console.log(error);
