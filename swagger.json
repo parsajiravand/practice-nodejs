@@ -161,6 +161,50 @@
       }
     },
     "/api/books/{id}": {
+      "put": {
+        "description": "Edit  book ",
+        "operationId": "edit Book",
+        "tags": ["books"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "edit all books from all user",
+            "required": true,
+
+            "type": "string"
+          },
+          {
+            "name": "book",
+            "in": "body",
+            "description": "Book to add to the Database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewBook"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "book response",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
       "delete": {
         "description": "Delete  book ",
         "operationId": "delete Book",
