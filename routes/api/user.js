@@ -4,6 +4,7 @@ var passport = require("passport");
 const auth = require("../auth");
 const jwt_decode = require("jwt-decode");
 const { getTokenFromHeader } = require("../../utils/getToken");
+const { success, error } = require("../../utils/errorHandeling");
 
 // Replace the route name
 router.get("/", auth.required, async (request, response) => {
@@ -79,15 +80,18 @@ function login(req, res, next) {
     "local",
     { session: false },
     function (err, user, info) {
+      console.log(err, user, info)
       if (err) {
-        return next(err);
+        return next(error(err));
       }
 
       if (user) {
         user.token = user.generateJWT();
-        return res.json({ user: user.toAuthJSON() });
+        return res.json(success({ user: user.toAuthJSON() }));
       } else {
-        return res.status(422).json(info);
+        return res.status(422).json(error(info
+          
+          ));
       }
     }
   )(req, res, next);
